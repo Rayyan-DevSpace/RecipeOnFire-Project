@@ -672,3 +672,68 @@ footer .copyright { font-size: 0.85rem; }
     .newsletter-section { padding: 40px 24px; }
     .auth-card { padding: 28px 20px; }
 }
+
+
+
+/*------------ UPDATED CODE---------- */
+
+/* Minimal Mobile Responsive Fix */
+@media (max-width: 991px) {
+    /* 1. Navbar overlap fix */
+    .navbar-collapse .d-flex {
+        margin-top: 15px;
+        flex-wrap: wrap;
+    }
+
+    /* 2. Category buttons horizontal scroll fix */
+    #filterButtons {
+        flex-wrap: nowrap !important;
+        overflow-x: auto;
+        justify-content: flex-start !important;
+        padding-bottom: 10px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Buttons ko shrink hone se rokne ke liye */
+    #filterButtons .filter-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    /* Hide ugly default scrollbar */
+    #filterButtons::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* ---------- Quick Mobile Fixes for Search & Right Gap ---------- */
+@media (max-width: 576px) {
+    /* 1. Pure page se right side ka extra gap khatam karne ke liye */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+
+    /* 2. Search wrapper ko responsive banana aur button ko control mein rakhna */
+    .search-wrapper {
+        display: flex !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box;
+        padding: 0 10px; /* halka sa andar padding */
+    }
+
+    /* Input ko bachi hui saari space dena */
+    .search-wrapper input {
+        flex-grow: 1 !important;
+        min-width: 0 !important; /* Input ko forced shrink hone dena */
+        font-size: 0.9rem !important;
+    }
+
+    /* Search button ka text thoda chota karna taaki wrap na ho */
+    .search-wrapper .btn-search {
+        padding: 6px 12px !important;
+        font-size: 0.9rem !important;
+        flex-shrink: 0 !important; /* Button ko pichakne se rokna */
+    }
+}
