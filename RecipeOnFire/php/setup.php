@@ -1,7 +1,7 @@
 <?php
 // ============================================================
 // setup.php — Run this ONCE to create the database & tables
-// Open in browser: http://localhost/Antigravity/php/setup.php
+// Open in browser: http://localhost/RecipeOnFire/php/setup.php
 // ============================================================
 
 $host     = "localhost";
