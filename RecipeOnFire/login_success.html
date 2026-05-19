@@ -33,10 +33,20 @@
         if (user)  localStorage.setItem("rof_user",  user);
         if (email) localStorage.setItem("rof_email", email);
 
-        // Redirect to homepage
-        setTimeout(function() {
+        function goHome() {
             window.location.href = "index.html";
-        }, 800);
+        }
+
+        // Restore favourites from database (session was set by login.php)
+        fetch("php/get_favourites.php", { credentials: "same-origin" })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success && Array.isArray(data.favourites)) {
+                    localStorage.setItem("rof_favourites", JSON.stringify(data.favourites));
+                }
+                goHome();
+            })
+            .catch(goHome);
     </script>
 </body>
 </html>

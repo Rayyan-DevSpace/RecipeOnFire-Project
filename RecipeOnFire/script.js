@@ -34,6 +34,23 @@ function getFavourites() {
     return saved ? JSON.parse(saved) : [];
 }
 
+// ---- Load favourites from server into localStorage (when logged in) ----
+function loadFavouritesFromServer(callback) {
+    if (!localStorage.getItem("rof_user")) {
+        if (callback) callback();
+        return;
+    }
+    fetch("php/get_favourites.php", { credentials: "same-origin" })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success && Array.isArray(data.favourites)) {
+                localStorage.setItem("rof_favourites", JSON.stringify(data.favourites));
+            }
+            if (callback) callback();
+        })
+        .catch(function() { if (callback) callback(); });
+}
+
 // ---- Toggle favourite (localStorage-based for homepage) ----
 function toggleFavourite(event, recipeId) {
     event.stopPropagation(); // don't open modal
@@ -64,9 +81,10 @@ function toggleFavourite(event, recipeId) {
     // Also sync with PHP backend if user is logged in
     fetch("php/toggle_favourite.php", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "recipe_id=" + recipeId
-    }).catch(function() {}); // silent fail if XAMPP not running
+    }).catch(function() {});
 }
 
 // ---- Render a single recipe card ----
@@ -208,25 +226,27 @@ document.addEventListener("DOMContentLoaded", function() {
             // Sync with backend
             fetch("php/toggle_favourite.php", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "recipe_id=" + currentModalRecipeId
             }).catch(function() {});
         });
     }
 
-    // Render Featured Cards (first 6)
-    var container = document.getElementById("featuredContainer");
-    if (container) {
-        // Remove skeleton placeholders
-        container.innerHTML = "";
-        var featured = recipes.slice(0, 6);
-        featured.forEach(function(recipe) {
-            container.innerHTML += renderCard(recipe, true);
-        });
+    function initPage() {
+        // Render Featured Cards (first 6)
+        var container = document.getElementById("featuredContainer");
+        if (container) {
+            container.innerHTML = "";
+            var featured = recipes.slice(0, 6);
+            featured.forEach(function(recipe) {
+                container.innerHTML += renderCard(recipe, true);
+            });
+        }
+        updateNavbar();
     }
 
-    // Navbar
-    updateNavbar();
+    loadFavouritesFromServer(initPage);
 
     // Navbar search - redirect to recipes page with query
     var navForm = document.getElementById("navSearchForm");

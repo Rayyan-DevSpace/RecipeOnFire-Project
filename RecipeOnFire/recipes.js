@@ -11,6 +11,22 @@ function getFavourites() {
     return saved ? JSON.parse(saved) : [];
 }
 
+function loadFavouritesFromServer(callback) {
+    if (!localStorage.getItem("rof_user")) {
+        if (callback) callback();
+        return;
+    }
+    fetch("php/get_favourites.php", { credentials: "same-origin" })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.success && Array.isArray(data.favourites)) {
+                localStorage.setItem("rof_favourites", JSON.stringify(data.favourites));
+            }
+            if (callback) callback();
+        })
+        .catch(function() { if (callback) callback(); });
+}
+
 function showToast(message, type) {
     var toast = document.getElementById("toastNotif");
     var msg   = document.getElementById("toastMsg");
@@ -339,6 +355,7 @@ function toggleFav(event, recipeId) {
     // Sync with backend
     fetch("php/toggle_favourite.php", {
         method: "POST",
+        credentials: "same-origin",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: "recipe_id=" + recipeId
     }).catch(function() {});
@@ -351,18 +368,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
     updateNavbar();
 
-    // Initial render
-    renderRecipes(getFilteredList());
-
-    // Check for search query from URL (coming from navbar search)
-    var urlParams = new URLSearchParams(window.location.search);
-    var urlSearch = urlParams.get("search");
-    if (urlSearch) {
-        document.getElementById("recipeSearchInput").value = urlSearch;
+    function initRecipesPage() {
         renderRecipes(getFilteredList());
-        searchAPI(urlSearch);
-        document.getElementById("clearSearchBtn").style.display = "inline-block";
+
+        var urlSearch = new URLSearchParams(window.location.search).get("search");
+        if (urlSearch) {
+            document.getElementById("recipeSearchInput").value = urlSearch;
+            renderRecipes(getFilteredList());
+            searchAPI(urlSearch);
+            document.getElementById("clearSearchBtn").style.display = "inline-block";
+        }
     }
+
+    loadFavouritesFromServer(initRecipesPage);
 
     // ---- Search button ----
     document.getElementById("searchBtn").addEventListener("click", function() {
@@ -433,6 +451,7 @@ document.addEventListener("DOMContentLoaded", function() {
             // Sync with backend
             fetch("php/toggle_favourite.php", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "recipe_id=" + currentModalId
             }).catch(function() {});

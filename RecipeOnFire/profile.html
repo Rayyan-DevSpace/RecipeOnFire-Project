@@ -222,6 +222,7 @@
             // Sync with backend
             fetch("php/toggle_favourite.php", {
                 method: "POST",
+                credentials: "same-origin",
                 headers: { "Content-Type": "application/x-www-form-urlencoded" },
                 body: "recipe_id=" + recipeId
             }).catch(function() {});
@@ -304,8 +305,16 @@
             renderFavourites();
         }
 
-        // Initial render
-        renderFavourites();
+        // Load favourites from database, then render
+        fetch("php/get_favourites.php", { credentials: "same-origin" })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.success && Array.isArray(data.favourites)) {
+                    localStorage.setItem("rof_favourites", JSON.stringify(data.favourites));
+                }
+                renderFavourites();
+            })
+            .catch(function() { renderFavourites(); });
     </script>
 
 </body>
