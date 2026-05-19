@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile — RecipesOnFire</title>
+    <meta name="description" content="Your RecipesOnFire profile — view and manage your saved favourite recipes.">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 fixed-top shadow-sm">
+        <a class="navbar-brand fw-bold" href="index.html">
+            Recipes<span class="brand-fire">OnFire</span> 
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house me-1"></i>Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="recipes.html"><i class="bi bi-grid me-1"></i>Recipes</a></li>
+                <li class="nav-item"><a class="nav-link active" href="profile.html"><i class="bi bi-person me-1"></i>Profile</a></li>
+            </ul>
+            <div class="d-flex align-items-center gap-2">
+                <span class="text-white-50 small">Logged in as: <strong id="profileNavUser" style="color:var(--orange);"></strong></span>
+                <a href="php/logout.php" class="btn btn-outline-danger btn-sm">
+                    <i class="bi bi-box-arrow-right me-1"></i>Logout
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== PROFILE HEADER ========== -->
+    <section class="profile-header">
+        <div class="container">
+            <div class="d-flex align-items-center gap-4 flex-wrap">
+                <div class="profile-avatar" id="profileAvatar">U</div>
+                <div>
+                    <h1 class="fw-bold mb-1" id="profileName">Username</h1>
+                    <p class="text-white-50 mb-2" id="profileEmail">user@example.com</p>
+                    <span class="badge" style="background:var(--orange); font-size:0.85rem;">
+                        <i class="bi bi-heart-fill me-1"></i>
+                        <span id="favCount">0</span> Saved Recipes
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FAVOURITES SECTION ========== -->
+    <section class="py-5">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+                <div>
+                    <h2 class="section-title mb-1"><i class="bi bi-heart-fill me-2" style="color:var(--orange);"></i>My Favourite Recipes</h2>
+                    <p class="text-muted mb-0">Recipes you've saved — click any card to view the full recipe.</p>
+                </div>
+                <a href="recipes.html" class="btn-orange">
+                    <i class="bi bi-plus-circle me-1"></i>Add More Recipes
+                </a>
+            </div>
+
+            <!-- Favourites Cards Grid -->
+            <div class="row g-4" id="favouritesContainer">
+                <!-- Filled by JavaScript -->
+            </div>
+
+            <!-- Empty state -->
+            <div id="emptyFavourites" class="empty-state" style="display:none;">
+                <i class="bi bi-heart d-block"></i>
+                <h5>No favourites yet!</h5>
+                <p class="text-muted">Start exploring recipes and hit the ❤️ button to save your favourites here.</p>
+                <a href="recipes.html" class="btn-orange mt-3">
+                    <i class="bi bi-grid me-2"></i>Browse Recipes
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <div class="col-lg-4">
+                    <div class="footer-brand mb-3">Recipes<span>OnFire</span> 🔥</div>
+                    <p style="font-size:0.9rem;">Your ultimate destination for discovering and saving incredible recipes.</p>
+                </div>
+                <div class="col-lg-2 col-6">
+                    <h6>Links</h6>
+                    <a href="index.html"   class="footer-link">Home</a>
+                    <a href="recipes.html" class="footer-link">Recipes</a>
+                    <a href="profile.html" class="footer-link">Profile</a>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center copyright py-2">© 2025 RecipesOnFire. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <!-- ========== RECIPE DETAIL MODAL ========== -->
+    <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeModalLabel">Recipe Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImg" src="" alt="Recipe" class="modal-recipe-img">
+                    <div class="d-flex flex-wrap gap-2 mb-3 modal-meta">
+                        <span><i class="bi bi-tag me-1" style="color:var(--orange);"></i><span id="modalCategory"></span></span>
+                        <span><i class="bi bi-clock me-1" style="color:var(--orange);"></i><span id="modalTime"></span></span>
+                        <span><i class="bi bi-bar-chart me-1" style="color:var(--orange);"></i><span id="modalDifficulty"></span></span>
+                    </div>
+                    <p id="modalDescription" class="text-muted" style="font-size:0.95rem;"></p>
+                    <h6 class="fw-bold mt-4 mb-2"><i class="bi bi-list-ul me-2" style="color:var(--orange);"></i>Ingredients</h6>
+                    <ul class="ingredient-list ps-3" id="modalIngredients"></ul>
+                    <h6 class="fw-bold mt-4 mb-2"><i class="bi bi-123 me-2" style="color:var(--orange);"></i>Step-by-Step Instructions</h6>
+                    <ol class="steps-list ps-3" id="modalSteps"></ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalRemoveBtn" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash me-1"></i>Remove from Favourites
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast-notif" id="toastNotif">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="recipes-data.js"></script>
+    <script>
+        // ---- Redirect if not logged in ----
+        var user = localStorage.getItem("rof_user");
+        if (!user) {
+            window.location.href = "login.html?error=" + encodeURIComponent("Please log in to view your profile.");
+        }
+
+        // ---- Display profile info ----
+        document.getElementById("profileNavUser").textContent = user || "";
+        document.getElementById("profileName").textContent    = user || "User";
+        document.getElementById("profileAvatar").textContent  = user ? user.charAt(0).toUpperCase() : "U";
+
+        // Get email from localStorage if stored
+        var email = localStorage.getItem("rof_email");
+        if (email) document.getElementById("profileEmail").textContent = email;
+
+        // ---- Toast helper ----
+        function showToast(message, type) {
+            var toast = document.getElementById("toastNotif");
+            var msg   = document.getElementById("toastMsg");
+            msg.textContent = message;
+            toast.className = "toast-notif show " + (type || "");
+            setTimeout(function() { toast.className = "toast-notif"; }, 3000);
+        }
+
+        // ---- Get favourites ----
+        function getFavourites() {
+            var saved = localStorage.getItem("rof_favourites");
+            return saved ? JSON.parse(saved) : [];
+        }
+
+        var currentModalId = null;
+
+        // ---- Open Modal ----
+        function openModal(recipeId) {
+            var recipe = null;
+            for (var i = 0; i < recipes.length; i++) {
+                if (recipes[i].id === recipeId) { recipe = recipes[i]; break; }
+            }
+            if (!recipe) return;
+            currentModalId = recipe.id;
+
+            document.getElementById("recipeModalLabel").textContent = recipe.name;
+            document.getElementById("modalImg").src                 = recipe.image;
+            document.getElementById("modalImg").alt                 = recipe.name;
+            document.getElementById("modalCategory").textContent    = recipe.category;
+            document.getElementById("modalTime").textContent        = recipe.time;
+            document.getElementById("modalDifficulty").textContent  = recipe.difficulty;
+            document.getElementById("modalDescription").textContent = recipe.description;
+
+            var ingList = document.getElementById("modalIngredients");
+            ingList.innerHTML = "";
+            recipe.ingredients.forEach(function(ing) {
+                var li = document.createElement("li");
+                li.textContent = ing;
+                ingList.appendChild(li);
+            });
+
+            var stepList = document.getElementById("modalSteps");
+            stepList.innerHTML = "";
+            recipe.steps.forEach(function(step) {
+                var li = document.createElement("li");
+                li.textContent = step;
+                stepList.appendChild(li);
+            });
+
+            var modal = new bootstrap.Modal(document.getElementById("recipeModal"));
+            modal.show();
+        }
+
+        // ---- Remove from favourites ----
+        function removeFavourite(recipeId) {
+            var favs = getFavourites();
+            var idx  = favs.indexOf(recipeId);
+            if (idx !== -1) favs.splice(idx, 1);
+            localStorage.setItem("rof_favourites", JSON.stringify(favs));
+
+            // Sync with backend
+            fetch("php/toggle_favourite.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: "recipe_id=" + recipeId
+            }).catch(function() {});
+        }
+
+        // Modal remove button
+        document.getElementById("modalRemoveBtn").addEventListener("click", function() {
+            if (!currentModalId) return;
+            removeFavourite(currentModalId);
+            showToast("Removed from favourites", "");
+            bootstrap.Modal.getInstance(document.getElementById("recipeModal")).hide();
+            renderFavourites();
+        });
+
+        // ---- Render favourites ----
+        function renderFavourites() {
+            var favs      = getFavourites();
+            var container = document.getElementById("favouritesContainer");
+            var empty     = document.getElementById("emptyFavourites");
+            var favCount  = document.getElementById("favCount");
+
+            container.innerHTML = "";
+            favCount.textContent = favs.length;
+
+            if (favs.length === 0) {
+                empty.style.display = "block";
+                return;
+            }
+            empty.style.display = "none";
+
+            favs.forEach(function(rid) {
+                var recipe = null;
+                for (var i = 0; i < recipes.length; i++) {
+                    if (recipes[i].id === rid) { recipe = recipes[i]; break; }
+                }
+                if (!recipe) return;
+
+                var diffBadge = "badge-easy";
+                if (recipe.difficulty === "Medium") diffBadge = "badge-medium";
+                if (recipe.difficulty === "Hard")   diffBadge = "badge-hard";
+
+                container.innerHTML += `
+                    <div class="col-12 col-sm-6 col-lg-4 mb-2">
+                        <div class="card recipe-card h-100 border-0 shadow-sm" onclick="openModal(${recipe.id})">
+                            <div class="card-img-wrapper">
+                                <img src="${recipe.image}" class="card-img-top" alt="${recipe.name}">
+                                <button class="btn-heart active position-absolute top-0 end-0 m-2"
+                                        onclick="removeCard(event, ${recipe.id})" title="Remove from Favourites">
+                                    <i class="bi bi-heart-fill"></i>
+                                </button>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex gap-2 mb-2">
+                                    <span class="badge badge-category">${recipe.category}</span>
+                                    <span class="badge text-white ${diffBadge}" style="font-size:0.72rem;">${recipe.difficulty}</span>
+                                </div>
+                                <h5 class="card-title">${recipe.name}</h5>
+                                <div class="recipe-meta mb-2">
+                                    <span><i class="bi bi-clock"></i> ${recipe.time}</span>
+                                    <span><i class="bi bi-list-ul"></i> ${recipe.ingredients.length} ingredients</span>
+                                </div>
+                                <p class="card-text">${recipe.description}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-0 pb-3 px-3">
+                                <button class="btn btn-outline-danger btn-sm w-100"
+                                        onclick="removeCard(event, ${recipe.id})">
+                                    <i class="bi bi-heart-fill me-1"></i>Remove from Favourites
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        // Remove card directly
+        function removeCard(event, recipeId) {
+            event.stopPropagation();
+            removeFavourite(recipeId);
+            showToast("Removed from favourites", "");
+            renderFavourites();
+        }
+
+        // Initial render
+        renderFavourites();
+    </script>
+
+</body>
+</html>

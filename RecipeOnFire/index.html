@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipesOnFire — Discover Delicious Recipes</title>
+    <meta name="description" content="Explore hundreds of mouth-watering recipes from around the world. Find your next favourite dish on RecipesOnFire!">
+    <!-- Bootstrap 5 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Preload hero background to prevent flicker -->
+    <link rel="preload" as="image" href="Images/bg.jpg">
+</head>
+
+<body>
+
+    <!-- ========== NAVBAR ========== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-3 fixed-top shadow-sm">
+        <a class="navbar-brand fw-bold" href="index.html">
+            Recipes<span class="brand-fire">OnFire</span>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="index.html"><i class="bi bi-house me-1"></i>Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="recipes.html"><i class="bi bi-grid me-1"></i>Recipes</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#features"><i class="bi bi-stars me-1"></i>About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact"><i class="bi bi-envelope me-1"></i>Contact</a>
+                </li>
+            </ul>
+
+            <!-- Navbar search -->
+            <form class="d-flex me-3" role="search" id="navSearchForm">
+                <div class="input-group" style="max-width: 220px;">
+                    <input class="form-control form-control-sm" type="search" placeholder="Search recipes..."
+                        id="navSearchInput" aria-label="Search">
+                    <button class="btn btn-custom btn-sm" type="submit">
+                        <i class="bi bi-search"></i>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Auth Buttons — changes based on login state -->
+            <div class="d-flex align-items-center gap-2" id="navAuthSection">
+                <a href="login.html" class="btn-nav-login nav-link" id="navLoginBtn">Log In</a>
+                <a href="signup.html" class="btn-nav-signup" id="navSignupBtn">Sign Up</a>
+                <!-- When logged in, these will show instead -->
+                <div id="navUserMenu" class="dropdown d-none">
+                    <button class="btn btn-custom btn-sm dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-1"></i><span id="navUsername">User</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="profile.html">
+                            <i class="bi bi-heart me-2 text-danger"></i>My Favourites
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="php/logout.php" id="logoutBtn">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section id="hero">
+        <div class="container text-white">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="hero-badge mb-3">
+                        32+ Recipes from 16 Cuisines
+                    </div>
+                    <h1 class="display-3 fw-bold mb-3">
+                        Cook Something<br><span class="highlight">Amazing</span> Today
+                    </h1>
+                    <p class="lead mb-4">
+                        Discover mouth-watering recipes from around the world. From quick weeknight dinners
+                        to impressive weekend feasts — we have it all.
+                    </p>
+                    <div class="d-flex flex-wrap gap-3 justify-content-center">
+                        <a href="recipes.html" class="btn-orange btn-lg">
+                            <i class="bi bi-grid me-2"></i>Explore All Recipes
+                        </a>
+                        <a href="#featured" class="btn-custom btn-lg">
+                            <i class="bi bi-arrow-down me-1"></i>See Featured
+                        </a>
+                    </div>
+                    <!-- Hero Stats -->
+                    <div class="d-flex flex-wrap justify-content-center gap-4 mt-5">
+                        <div class="text-center">
+                            <h3 class="fw-bold mb-0" style="color: var(--orange);">32+</h3>
+                            <small class="text-white-50">Recipes</small>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="fw-bold mb-0" style="color: var(--orange);">16</h3>
+                            <small class="text-white-50">Cuisines</small>
+                        </div>
+                        <div class="text-center">
+                            <h3 class="fw-bold mb-0" style="color: var(--orange);">5K+</h3>
+                            <small class="text-white-50">Happy Cooks</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FEATURED RECIPES SECTION ========== -->
+    <section id="featured" class="py-5">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <p class="text-uppercase fw-semibold" style="color: var(--orange); letter-spacing: 1px; font-size: 0.85rem;">FEATURED PICKS</p>
+                <h2 class="section-title">Popular <span>Recipes</span></h2>
+                <div class="section-divider mx-auto mb-3"></div>
+                <p class="section-subtitle mx-auto">
+                    Hand-picked fan favourites loved by our community. Click any card for the full recipe!
+                </p>
+            </div>
+
+            <!-- Cards rendered by script.js -->
+            <div class="row g-4" id="featuredContainer">
+                <!-- skeleton placeholders -->
+                <div class="col-12 col-sm-6 col-lg-4 skeleton-col">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="skeleton" style="height:210px; border-radius:12px 12px 0 0;"></div>
+                        <div class="p-3">
+                            <div class="skeleton mb-2" style="height:16px; width:60%;"></div>
+                            <div class="skeleton" style="height:12px; width:80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 skeleton-col">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="skeleton" style="height:210px; border-radius:12px 12px 0 0;"></div>
+                        <div class="p-3">
+                            <div class="skeleton mb-2" style="height:16px; width:60%;"></div>
+                            <div class="skeleton" style="height:12px; width:80%;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-4 skeleton-col">
+                    <div class="card border-0 shadow-sm" style="border-radius:12px;">
+                        <div class="skeleton" style="height:210px; border-radius:12px 12px 0 0;"></div>
+                        <div class="p-3">
+                            <div class="skeleton mb-2" style="height:16px; width:60%;"></div>
+                            <div class="skeleton" style="height:12px; width:80%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="recipes.html" class="btn-orange btn-lg px-5">
+                    <i class="bi bi-collection me-2"></i>Explore All Recipes
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== HOW IT WORKS / FEATURES ========== -->
+    <section id="features" class="py-5" style="background: white;">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <p class="text-uppercase fw-semibold" style="color: var(--orange); letter-spacing: 1px; font-size: 0.85rem;">HOW IT WORKS</p>
+                <h2 class="section-title">Everything You <span>Need</span></h2>
+                <div class="section-divider mx-auto mb-3"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">🔍</div>
+                        <h5>Search & Discover</h5>
+                        <p>Find any recipe instantly by searching dish names. Powered by TheMealDB API with thousands of results.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">📋</div>
+                        <h5>Full Recipes</h5>
+                        <p>Click any recipe card to see the full ingredient list, step-by-step cooking instructions, and nutrition tips.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">❤️</div>
+                        <h5>Save Favourites</h5>
+                        <p>Create a free account and save your favourite recipes. Access them anytime from your personal profile.</p>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="feature-card text-center">
+                        <div class="feature-icon mx-auto">🌍</div>
+                        <h5>World Cuisines</h5>
+                        <p>From Italian pasta to Pakistani biryani, Mexican tacos to French croissants — explore the world on a plate.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS ========== -->
+    <section id="reviews" class="py-5" style="background: var(--gray-light);">
+        <div class="container py-4">
+            <div class="text-center mb-5">
+                <p class="text-uppercase fw-semibold" style="color: var(--orange); letter-spacing: 1px; font-size: 0.85rem;">TESTIMONIALS</p>
+                <h2 class="section-title">What Our <span>Cooks</span> Say</h2>
+                <div class="section-divider mx-auto"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-12 col-md-4">
+                    <div class="review-card">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="review-avatar">A</div>
+                            <div>
+                                <div class="reviewer-name">Ayesha Khan</div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p>"The Butter Chicken recipe is absolutely incredible — tastes just like a restaurant! RecipesOnFire has become my go-to cooking app."</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="review-card">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="review-avatar" style="background:#6c63ff;">H</div>
+                            <div>
+                                <div class="reviewer-name">Hamza Malik</div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p>"I love that I can save my favourite recipes. The Biryani recipe is spot on — my mum was impressed! Beautiful website design too."</p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="review-card">
+                        <div class="d-flex align-items-center gap-3 mb-3">
+                            <div class="review-avatar" style="background:#28a745;">S</div>
+                            <div>
+                                <div class="reviewer-name">Sara Ahmed</div>
+                                <div class="review-stars">★★★★★</div>
+                            </div>
+                        </div>
+                        <p>"The search feature is amazing! I typed 'pasta' and got so many options with detailed instructions. Highly recommended for food lovers!"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NEWSLETTER / CTA ========== -->
+    <section class="py-5">
+        <div class="container py-3">
+            <div class="newsletter-section text-white text-center">
+                <h2 class="fw-bold mb-2">Ready to Start Cooking?</h2>
+                <p class="mb-4 opacity-75">Create a free account to save favourites, unlock all recipes, and join our community.</p>
+                <div class="d-flex flex-wrap justify-content-center gap-3">
+                    <a href="signup.html" class="btn btn-light fw-bold px-4" style="color: var(--orange); border-radius:8px;">
+                        <i class="bi bi-person-plus me-2"></i>Create Free Account
+                    </a>
+                    <a href="recipes.html" class="btn btn-outline-light fw-bold px-4" style="border-radius:8px;">
+                        <i class="bi bi-grid me-2"></i>Browse Recipes
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer id="contact">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand mb-3">Recipes<span>OnFire</span></div>
+                    <p style="font-size:0.9rem; line-height:1.7;">
+                        Your ultimate destination for discovering, saving, and cooking incredible recipes from every cuisine around the world.
+                    </p>
+                    <div class="mt-3">
+                        <a href="#" class="social-icon"><i class="bi bi-youtube"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-icon"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6>Quick Links</h6>
+                    <a href="index.html" class="footer-link">Home</a>
+                    <a href="recipes.html" class="footer-link">All Recipes</a>
+                    <a href="login.html" class="footer-link">Login</a>
+                    <a href="signup.html" class="footer-link">Sign Up</a>
+                    <a href="profile.html" class="footer-link">My Favourites</a>
+                </div>
+                <div class="col-lg-2 col-md-6 col-6">
+                    <h6>Cuisines</h6>
+                    <a href="recipes.html" class="footer-link">Italian</a>
+                    <a href="recipes.html" class="footer-link">Pakistani</a>
+                    <a href="recipes.html" class="footer-link">Mexican</a>
+                    <a href="recipes.html" class="footer-link">American</a>
+                    <a href="recipes.html" class="footer-link">Thai</a>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <h6>Contact Us</h6>
+                    <p style="font-size:0.9rem;">
+                        <i class="bi bi-envelope me-2" style="color: var(--orange);"></i>hello@recipesonfire.com
+                    </p>
+                    <p style="font-size:0.9rem;">
+                        <i class="bi bi-telephone me-2" style="color: var(--orange);"></i>+92 300 1234567
+                    </p>
+                    <p style="font-size:0.9rem;">
+                        <i class="bi bi-geo-alt me-2" style="color: var(--orange);"></i>Chakwal, Pakistan
+                    </p>
+                    <p style="font-size:0.85rem; opacity:0.6;">Mon – Fri: 9am – 6pm PKT</p>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center copyright py-2">
+                © 2026 RecipesOnFire. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== RECIPE DETAIL MODAL ========== -->
+    <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeModalLabel">Recipe Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <img id="modalImg" src="" alt="Recipe" class="modal-recipe-img">
+                    <div class="d-flex flex-wrap gap-2 mb-3 modal-meta">
+                        <span><i class="bi bi-tag me-1" style="color:var(--orange);"></i><span id="modalCategory"></span></span>
+                        <span><i class="bi bi-clock me-1" style="color:var(--orange);"></i><span id="modalTime"></span></span>
+                        <span><i class="bi bi-bar-chart me-1" style="color:var(--orange);"></i><span id="modalDifficulty"></span></span>
+                    </div>
+                    <p id="modalDescription" class="text-muted" style="font-size:0.95rem;"></p>
+
+                    <h6 class="fw-bold mt-4 mb-2"><i class="bi bi-list-ul me-2" style="color:var(--orange);"></i>Ingredients</h6>
+                    <ul class="ingredient-list ps-3" id="modalIngredients"></ul>
+
+                    <h6 class="fw-bold mt-4 mb-2"><i class="bi bi-123 me-2" style="color:var(--orange);"></i>Step-by-Step Instructions</h6>
+                    <ol class="steps-list ps-3" id="modalSteps"></ol>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="modalFavBtn" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-heart me-1"></i>Save to Favourites
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== TOAST NOTIFICATION ========== -->
+    <div class="toast-notif" id="toastNotif">
+        <i class="bi bi-check-circle-fill"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button id="scrollTopBtn" title="Back to top"><i class="bi bi-arrow-up"></i></button>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Recipe Data -->
+    <script src="recipes-data.js"></script>
+    <!-- Homepage Script -->
+    <script src="script.js"></script>
+
+</body>
+</html>
